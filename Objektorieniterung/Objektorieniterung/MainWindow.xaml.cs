@@ -51,7 +51,7 @@ namespace Objektorieniterung
         {
             InitializeComponent();
 
-
+            
             
         }
 
@@ -63,13 +63,15 @@ namespace Objektorieniterung
                 double laenge = double.Parse(laengeStr);
                 string breiteStr = this.tbxBreite.Text;
                 double breite = double.Parse(breiteStr);
+
                 if (lstRechtecke.SelectedItem != null)
                 {
-                    Rechteck r=(Rechteck)lstRechtecke.SelectedItem;
-                    r.laenge=laenge;
-                    r.breite=breite;
-                   
-                 
+                    Rechteck r = (Rechteck)lstRechtecke.SelectedItem;
+                    r.laenge = laenge;
+                    r.breite = breite;
+
+                    
+              
                 }
                 else
                 {
@@ -77,15 +79,25 @@ namespace Objektorieniterung
                     lstRechtecke.Items.Add(r);
                     rechtecke.Add(r);
                 }
+
                 tbxLaenge.Clear();
                 tbxBreite.Clear();
+                lstRechtecke.SelectedItem = null;
+
+                Rectangle rect = new Rectangle();
+               
+                rect.Width = laenge;
+                rect.Height = breite;
+                rect.StrokeThickness = 2;
+                rect.Stroke = Brushes.Black;
+                myCanvas.Children.Add(rect);
             }
-            catch (FormatException )
+            catch (FormatException)
             {
                 MessageBox.Show("Ungültige Eingabe!");
-
             }
         }
+
 
         private void lstRechtecke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

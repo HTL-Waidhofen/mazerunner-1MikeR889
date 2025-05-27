@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Objektorieniterung"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel>
         <StackPanel.Background>
             <ImageBrush ImageSource="/John-Pork-London.-Source-Facebook.jpg"/>
         </StackPanel.Background>
@@ -18,9 +19,21 @@
             <Label Width="100" Background="#FFF9F0F0">Breite</Label>
             <TextBox x:Name="tbxBreite" Width="100"></TextBox>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100" Background="#FFF9F0F0">x-Position</Label>
+                <TextBox x:Name="tbxx" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10">
+              <Label Width="100" Background="#FFF9F0F0">y-Position</Label>
+             <TextBox x:Name="tbxy" Width="100"></TextBox>
+        </StackPanel>
+            <StackPanel HorizontalAlignment="Left">
         <Button Margin="10" Width="100" Click="Button_Click">Speichern</Button>
             <ListView x:Name="lstRechtecke" Height="200" Width="200" Margin="10" SelectionChanged="lstRechtecke_SelectionChanged"></ListView>
         </StackPanel>
+        </StackPanel>
+        <Canvas Width="200" Height="200" x:Name="myCanvas">
+            
+        </Canvas>
     </StackPanel>
 </Window>
