@@ -7,12 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
+        <StackPanel.Background>
+            <ImageBrush ImageSource="/John-Pork-London.-Source-Facebook.jpg"/>
+        </StackPanel.Background>
         <StackPanel Orientation="Horizontal" Margin="10">
-            <Label Width="100">Höhe </Label>
+            <Label Width="100" Background="#FFF3EFEF">Höhe </Label>
             <TextBox x:Name="tbxLaenge" Width="100"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10">
-            <Label Width="100">Breite</Label>
+            <Label Width="100" Background="#FFF9F0F0">Breite</Label>
             <TextBox x:Name="tbxBreite" Width="100"></TextBox>
         </StackPanel>
         <StackPanel HorizontalAlignment="Left">
