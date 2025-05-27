@@ -19,19 +19,25 @@ namespace Objektorieniterung
     {
         public double laenge = 1;
         public double breite = 2;
+        public double posX = 1;
+        public double posY = 1;
 
-       public double FlaecheBerechnen()
+
+
+        public double FlaecheBerechnen()
        {
 
          
             return laenge*breite;
        }
 
-        public Rechteck(double laenge, double breite)
+        public Rechteck(double laenge, double breite, double posX, double posY)
 
         {
             this.laenge = laenge;
             this.breite = breite;
+            this.posX = posX;
+            this.posY = posY;
         }
 
         public override string ToString()
@@ -63,6 +69,8 @@ namespace Objektorieniterung
                 double laenge = double.Parse(laengeStr);
                 string breiteStr = this.tbxBreite.Text;
                 double breite = double.Parse(breiteStr);
+                double posX = double.Parse(tbxx.Text);
+                double posY = double.Parse(tbxy.Text);
 
                 if (lstRechtecke.SelectedItem != null)
                 {
@@ -75,22 +83,19 @@ namespace Objektorieniterung
                 }
                 else
                 {
-                    Rechteck r = new Rechteck(laenge, breite);
+                    Rechteck r = new Rechteck(laenge, breite,posX,posY);
                     lstRechtecke.Items.Add(r);
                     rechtecke.Add(r);
                 }
 
                 tbxLaenge.Clear();
                 tbxBreite.Clear();
+                tbxx.Clear();
+                tbxy.Clear();
                 lstRechtecke.SelectedItem = null;
 
-                Rectangle rect = new Rectangle();
-               
-                rect.Width = laenge;
-                rect.Height = breite;
-                rect.StrokeThickness = 2;
-                rect.Stroke = Brushes.Black;
-                myCanvas.Children.Add(rect);
+                lstRechtecke.Items.Refresh();
+                
             }
             catch (FormatException)
             {
@@ -102,9 +107,42 @@ namespace Objektorieniterung
         private void lstRechtecke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Rechteck r = (Rechteck)this.lstRechtecke.SelectedItem;
+            if (r != null)
+            {
+                tbxLaenge.Text = r.laenge.ToString();
+                tbxBreite.Text = r.breite.ToString();
+                tbxx.Text = r.posX.ToString();
+                tbxy.Text = r.posY.ToString();
+            }
+        }
 
-            tbxLaenge.Text=r.laenge.ToString();
-            tbxBreite.Text=r.breite.ToString();
+        private void Button_Zeichnen_Click(object sender, RoutedEventArgs e)
+        {
+            string laengeStr = this.tbxLaenge.Text;
+            double laenge = double.Parse(laengeStr);
+            string breiteStr = this.tbxBreite.Text;
+            double breite = double.Parse(breiteStr);
+            string posXStr =this.tbxx.Text;
+            double posX = double.Parse(tbxx.Text);
+            string posYStr =this.tbxy.Text;
+            double posY = double.Parse(tbxy.Text);
+            
+            Rectangle rect = new Rectangle();
+
+            rect.Width = laenge;
+            rect.Height = breite;
+            rect.StrokeThickness = 2;
+            rect.Stroke = Brushes.Black;
+
+            Canvas.SetLeft(rect, posX);
+            Canvas.SetTop(rect, posY);
+
+
+            myCanvas.Children.Add(rect);
+        }
+
+        private void Button_LoeschenAlle_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

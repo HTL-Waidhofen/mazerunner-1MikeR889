@@ -1,39 +1,41 @@
 ﻿<Window x:Class="Objektorieniterung.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Objektorieniterung"
-        mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel Orientation="Horizontal">
         <StackPanel>
-        <StackPanel.Background>
-            <ImageBrush ImageSource="/John-Pork-London.-Source-Facebook.jpg"/>
-        </StackPanel.Background>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <Label Width="100" Background="#FFF3EFEF">Höhe </Label>
-            <TextBox x:Name="tbxLaenge" Width="100"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <Label Width="100" Background="#FFF9F0F0">Breite</Label>
-            <TextBox x:Name="tbxBreite" Width="100"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10">
-                <Label Width="100" Background="#FFF9F0F0">x-Position</Label>
-                <TextBox x:Name="tbxx" Width="100"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10">
-              <Label Width="100" Background="#FFF9F0F0">y-Position</Label>
-             <TextBox x:Name="tbxy" Width="100"></TextBox>
-        </StackPanel>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/John-Pork-London.-Source-Facebook.jpg"/>
+            </StackPanel.Background>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">Höhe</Label>
+                <TextBox x:Name="tbxLaenge" Width="100"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">Breite</Label>
+                <TextBox x:Name="tbxBreite" Width="100"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">x-Position</Label>
+                <TextBox x:Name="tbxx" Width="100"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">y-Position</Label>
+                <TextBox x:Name="tbxy" Width="100"/>
+            </StackPanel>
+
             <StackPanel HorizontalAlignment="Left">
-        <Button Margin="10" Width="100" Click="Button_Click">Speichern</Button>
-            <ListView x:Name="lstRechtecke" Height="200" Width="200" Margin="10" SelectionChanged="lstRechtecke_SelectionChanged"></ListView>
+                <Button Margin="10" Width="100" Click="Button_Click">Speichern</Button>
+                <ListView x:Name="lstRechtecke" Height="200" Width="200" Margin="10" SelectionChanged="lstRechtecke_SelectionChanged"/>
+                <Button Content="Zeichnen" Margin="5" Width="100" Click="Button_Zeichnen_Click"/>
+                <Button Content="löschen" Margin="5" Width="100" Click="Button_LoeschenAlle_Click"/>
+            </StackPanel>
         </StackPanel>
-        </StackPanel>
-        <Canvas Width="200" Height="200" x:Name="myCanvas">
-            
-        </Canvas>
+
+        <Canvas Width="400" Height="400"  x:Name="myCanvas" Margin="10"/>
     </StackPanel>
 </Window>
