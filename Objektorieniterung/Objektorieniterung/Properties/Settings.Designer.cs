@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WPFExample.Properties
+namespace Objektorieniterung.Properties
 {
 
 
