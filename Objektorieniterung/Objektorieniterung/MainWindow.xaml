@@ -1,9 +1,12 @@
 ﻿<Window x:Class="Objektorieniterung.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        KeyDown="Window_KeyDown">
+        
     <StackPanel Orientation="Horizontal">
-        <StackPanel>
+       
+        <StackPanel x:Name="stp_background" >
             <StackPanel.Background>
                 <ImageBrush ImageSource="/John-Pork-London.-Source-Facebook.jpg"/>
             </StackPanel.Background>
@@ -28,12 +31,16 @@
                 <TextBox x:Name="tbxy" Width="100"/>
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Left">
+            <StackPanel x:Name="stp_sidebar" HorizontalAlignment="Left">
                 <Button Margin="10" Width="100" Click="Button_Click">Speichern</Button>
                 <ListView x:Name="lstRechtecke" Height="200" Width="200" Margin="10" SelectionChanged="lstRechtecke_SelectionChanged"/>
                 <Button Content="Zeichnen" Margin="5" Width="100" Click="Button_Zeichnen_Click"/>
                 <Button Content="löschen" Margin="5" Width="100" Click="Button_LoeschenAlle_Click"/>
+                <Button Margin="10" Content="Starten" Click="Button_Click_1"></Button>
             </StackPanel>
+        </StackPanel>
+        <StackPanel>
+            <Button Margin="10" Content="Starten" Click="Button_Click_1"></Button>
         </StackPanel>
 
         <Canvas Width="400" Height="400"  x:Name="myCanvas" Margin="10"/>

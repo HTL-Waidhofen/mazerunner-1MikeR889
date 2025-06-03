@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,13 +49,54 @@ namespace Objektorieniterung
         }
 
     }
+
+    class Spieler
+    {
+        public int x;
+        public int y;
+        public Image image;
+
+        public Spieler()
+        {
+            x = 1;
+            y= 1;
+        }
+
+        public void Move(Key key)
+        {
+            if (key == Key.Left)
+            {
+                x--;
+            }
+            else if (key == Key.Right)
+            {
+                x++;
+            }
+            else if(key == Key.Up)
+            {
+                y--;
+
+            }
+            else if( key == Key.Down)
+            {
+                y++;
+            }
+
+            Canvas.SetTop(image,y*MainWindow.GRID_SIZE);
+            Canvas.SetLeft(image,x*MainWindow.GRID_SIZE);
+          
+        }
+
+    }
+
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         List<Rechteck> rechtecke = new List <Rechteck>();
-
+        Spieler spieler = new Spieler();
+        public static int GRID_SIZE = 10;
 
 
 
@@ -68,11 +110,12 @@ namespace Objektorieniterung
             double breite = 10;
             double posX = 0;
             double posY = 0;
+
             while ((zeile = reader.ReadLine()) != null)
             {
                 string[] teile = zeile.Split(',');
-                posX = double.Parse(teile[0])*10;
-                posY = double.Parse(teile[1])*10;
+                posX = double.Parse(teile[0])*GRID_SIZE;
+                posY = double.Parse(teile[1])*GRID_SIZE;
 
 
 
@@ -90,7 +133,7 @@ namespace Objektorieniterung
                 }
                 else
                 {
-                    Rechteck r = new Rechteck(laenge, breite, posX, posY);
+                    Rechteck r = new Rechteck(1, 1, posX, posY);
                     lstRechtecke.Items.Add(r);
                     rechtecke.Add(r);
                 }
@@ -101,13 +144,27 @@ namespace Objektorieniterung
                 rect.StrokeThickness = 2;
                 rect.Stroke = Brushes.Black;
                 rect.Fill = Brushes.Black;
+
                 Canvas.SetLeft(rect, posX);
                 Canvas.SetTop(rect, posY);
 
 
                 myCanvas.Children.Add(rect);
             }
+
             reader.Close();
+            spieler.image = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("Unbenannt.png", UriKind.Relative);
+            bitmap.EndInit();
+            spieler.image.Source = bitmap;
+            spieler.image.Width= GRID_SIZE;
+            spieler.image.Height= GRID_SIZE;
+            Canvas.SetTop(spieler.image, spieler.y*GRID_SIZE);
+            Canvas.SetLeft(spieler.image, spieler.x*GRID_SIZE);
+            myCanvas.Children.Add(spieler.image);
+            double dummy = bitmap.Width+1;
 
         }
         
@@ -183,7 +240,7 @@ namespace Objektorieniterung
             rect.Height = breite;
             rect.StrokeThickness = 2;
             rect.Stroke = Brushes.Black;
-            rect.Fill = Brushes.Black;
+
             Canvas.SetLeft(rect, posX);
             Canvas.SetTop(rect, posY);
 
@@ -195,6 +252,27 @@ namespace Objektorieniterung
         {
 
         }
-        
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+           
+           spieler.Move(e.Key);
+
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+           if(stp_sidebar.Visibility == Visibility.Collapsed)
+           {
+                stp_sidebar.Visibility = Visibility.Visible; 
+                stp_background.Visibility = Visibility.Visible;
+           }
+            else
+            {
+                stp_sidebar.Visibility = Visibility.Collapsed;
+                stp_background.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
