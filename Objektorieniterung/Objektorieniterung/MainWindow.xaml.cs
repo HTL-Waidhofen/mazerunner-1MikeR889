@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,14 +55,62 @@ namespace Objektorieniterung
     {
         List<Rechteck> rechtecke = new List <Rechteck>();
 
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
+            StreamReader reader = new StreamReader("wallsList.txt");
+            string zeile;
+            double laenge = 10;
+            double breite = 10;
+            double posX = 0;
+            double posY = 0;
+            while ((zeile = reader.ReadLine()) != null)
+            {
+                string[] teile = zeile.Split(',');
+                posX = double.Parse(teile[0])*10;
+                posY = double.Parse(teile[1])*10;
 
-            
-            
+
+
+
+                
+
+                if (lstRechtecke.SelectedItem != null)
+                {
+                    Rechteck r = (Rechteck)lstRechtecke.SelectedItem;
+                    r.laenge = laenge;
+                    r.breite = breite;
+
+
+
+                }
+                else
+                {
+                    Rechteck r = new Rechteck(laenge, breite, posX, posY);
+                    lstRechtecke.Items.Add(r);
+                    rechtecke.Add(r);
+                }
+                Rectangle rect = new Rectangle();
+
+                rect.Width = laenge;
+                rect.Height = breite;
+                rect.StrokeThickness = 2;
+                rect.Stroke = Brushes.Black;
+                rect.Fill = Brushes.Black;
+                Canvas.SetLeft(rect, posX);
+                Canvas.SetTop(rect, posY);
+
+
+                myCanvas.Children.Add(rect);
+            }
+            reader.Close();
+
         }
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -133,7 +183,7 @@ namespace Objektorieniterung
             rect.Height = breite;
             rect.StrokeThickness = 2;
             rect.Stroke = Brushes.Black;
-
+            rect.Fill = Brushes.Black;
             Canvas.SetLeft(rect, posX);
             Canvas.SetTop(rect, posY);
 
@@ -145,5 +195,6 @@ namespace Objektorieniterung
         {
 
         }
+        
     }
 }

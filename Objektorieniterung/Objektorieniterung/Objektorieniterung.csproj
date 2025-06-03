@@ -100,5 +100,10 @@
   <ItemGroup>
     <Resource Include="John-Pork-London.-Source-Facebook.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wallsList.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
