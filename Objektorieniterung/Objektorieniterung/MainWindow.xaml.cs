@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Objektorieniterung
 {
@@ -28,11 +29,11 @@ namespace Objektorieniterung
 
 
         public double FlaecheBerechnen()
-       {
+        {
 
-         
-            return laenge*breite;
-       }
+
+            return laenge * breite;
+        }
 
         public Rechteck(double laenge, double breite, double posX, double posY)
 
@@ -55,36 +56,44 @@ namespace Objektorieniterung
         public int x;
         public int y;
         public Image image;
+        public MainWindow.Direction direction=MainWindow.Direction.None;
 
         public Spieler()
         {
             x = 1;
-            y= 1;
+            y = 1;
         }
 
-        public void Move(Key key)
+        public void Move()
         {
-            if (key == Key.Left)
+            if (direction == MainWindow.Direction.Left)
             {
                 x--;
             }
-            else if (key == Key.Right)
+            else if (direction == MainWindow.Direction.Right)
             {
                 x++;
             }
-            else if(key == Key.Up)
+            else if (direction == MainWindow.Direction.Up)
             {
                 y--;
 
             }
-            else if( key == Key.Down)
+            else if (direction == MainWindow.Direction.Down)
             {
                 y++;
             }
 
-            Canvas.SetTop(image,y*MainWindow.GRID_SIZE);
-            Canvas.SetLeft(image,x*MainWindow.GRID_SIZE);
-          
+            Canvas.SetTop(image, y * MainWindow.GRID_SIZE);
+            Canvas.SetLeft(image, x * MainWindow.GRID_SIZE);
+
+        }
+        public void SetDirection(MainWindow.Direction direction)
+        {
+           
+            this.direction = direction;
+
+
         }
 
     }
@@ -94,16 +103,35 @@ namespace Objektorieniterung
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Rechteck> rechtecke = new List <Rechteck>();
+        public enum Direction
+        {
+            Up, 
+            Down,
+            Left, 
+            Right,
+            None
+        }
+
+
+
+        List<Rechteck> rechtecke = new List<Rechteck>();
         Spieler spieler = new Spieler();
         public static int GRID_SIZE = 10;
 
+        DispatcherTimer timer = null;
 
+        private void Update(object sender, EventArgs e)
+        {
+            spieler.Move();
+        }
 
 
         public MainWindow()
         {
             InitializeComponent();
+
+
+
             StreamReader reader = new StreamReader("wallsList.txt");
             string zeile;
             double laenge = 10;
@@ -114,13 +142,13 @@ namespace Objektorieniterung
             while ((zeile = reader.ReadLine()) != null)
             {
                 string[] teile = zeile.Split(',');
-                posX = double.Parse(teile[0])*GRID_SIZE;
-                posY = double.Parse(teile[1])*GRID_SIZE;
+                posX = double.Parse(teile[0]) * GRID_SIZE;
+                posY = double.Parse(teile[1]) * GRID_SIZE;
 
 
 
 
-                
+
 
                 if (lstRechtecke.SelectedItem != null)
                 {
@@ -159,15 +187,15 @@ namespace Objektorieniterung
             bitmap.UriSource = new Uri("Unbenannt.png", UriKind.Relative);
             bitmap.EndInit();
             spieler.image.Source = bitmap;
-            spieler.image.Width= GRID_SIZE;
-            spieler.image.Height= GRID_SIZE;
-            Canvas.SetTop(spieler.image, spieler.y*GRID_SIZE);
-            Canvas.SetLeft(spieler.image, spieler.x*GRID_SIZE);
+            spieler.image.Width = GRID_SIZE;
+            spieler.image.Height = GRID_SIZE;
+            Canvas.SetTop(spieler.image, spieler.y * GRID_SIZE);
+            Canvas.SetLeft(spieler.image, spieler.x * GRID_SIZE);
             myCanvas.Children.Add(spieler.image);
-            double dummy = bitmap.Width+1;
+            double dummy = bitmap.Width + 1;
 
         }
-        
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -185,12 +213,12 @@ namespace Objektorieniterung
                     r.laenge = laenge;
                     r.breite = breite;
 
-                    
-              
+
+
                 }
                 else
                 {
-                    Rechteck r = new Rechteck(laenge, breite,posX,posY);
+                    Rechteck r = new Rechteck(laenge, breite, posX, posY);
                     lstRechtecke.Items.Add(r);
                     rechtecke.Add(r);
                 }
@@ -202,7 +230,7 @@ namespace Objektorieniterung
                 lstRechtecke.SelectedItem = null;
 
                 lstRechtecke.Items.Refresh();
-                
+
             }
             catch (FormatException)
             {
@@ -229,11 +257,11 @@ namespace Objektorieniterung
             double laenge = double.Parse(laengeStr);
             string breiteStr = this.tbxBreite.Text;
             double breite = double.Parse(breiteStr);
-            string posXStr =this.tbxx.Text;
+            string posXStr = this.tbxx.Text;
             double posX = double.Parse(tbxx.Text);
-            string posYStr =this.tbxy.Text;
+            string posYStr = this.tbxy.Text;
             double posY = double.Parse(tbxy.Text);
-            
+
             Rectangle rect = new Rectangle();
 
             rect.Width = laenge;
@@ -255,24 +283,52 @@ namespace Objektorieniterung
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-           
-           spieler.Move(e.Key);
+            if (e.Key == Key.Left)
+            {
+                spieler.SetDirection(Direction.Left);
+            }
+            else if (e.Key == Key.Right)
+            {
+                spieler.SetDirection(Direction.Right);
+            }
+            else if (e.Key == Key.Up)
+            {
+                spieler.SetDirection(Direction.Up);
+            }
+            else if (e.Key == Key.Down)
+            {
+                spieler.SetDirection(Direction.Down);
+            }
+            else
+            {
+                spieler.SetDirection(Direction.None);
 
 
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-           if(stp_sidebar.Visibility == Visibility.Collapsed)
-           {
-                stp_sidebar.Visibility = Visibility.Visible; 
+            if (stp_sidebar.Visibility == Visibility.Collapsed)
+            {
+                stp_sidebar.Visibility = Visibility.Visible;
                 stp_background.Visibility = Visibility.Visible;
-           }
+            }
             else
             {
                 stp_sidebar.Visibility = Visibility.Collapsed;
                 stp_background.Visibility = Visibility.Collapsed;
+
+
+                timer = new DispatcherTimer(DispatcherPriority.Render);
+                timer.Interval = TimeSpan.FromMilliseconds(300);
+                timer.Tick += Update;
+                timer.Start();
             }
+
+
         }
+
+
     }
 }
